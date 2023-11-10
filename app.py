@@ -51,8 +51,34 @@ answers = {}
 # st.write("### Radar Chart:")
 # st.plotly_chart(fig)
 
-# Initialize answers list
-answers = []
+# # Initialize answers list
+# answers = []
+# answers_df = pd.DataFrame(columns=['Question', 'Answer'])
+# # Loop through each question
+# for index, row in df_questions.iterrows():
+#     st.write(f"### Question {index + 1}: {row['Question']}")
+    
+#     # Use unique key for each question's response input
+#     response_key = f"response_{index}"
+#     response = st.slider("Select your answer", min_value=1, max_value=5, key=response_key)
+    
+#     # Save the response in the answers list
+#     answers.append({'Question': row['Question'], 'Answer': response})
+
+# # Display the answers
+# st.write("### Your Answers:")
+# print("Answers list:", answers)
+
+# # Create a DataFrame from the list of dictionaries
+# answers_df = pd.DataFrame(answers)
+
+# # Create a radar chart based on the answers
+# fig = px.line_polar(answers_df, r='Answer', theta='Question', line_close=True)
+# st.write("### Radar Chart:")
+# st.plotly_chart(fig)
+
+# Initialize an empty DataFrame with columns 'Question' and 'Answer'
+answers_df = pd.DataFrame(columns=['Question', 'Answer'])
 
 # Loop through each question
 for index, row in df_questions.iterrows():
@@ -62,20 +88,16 @@ for index, row in df_questions.iterrows():
     response_key = f"response_{index}"
     response = st.slider("Select your answer", min_value=1, max_value=5, key=response_key)
     
-    # Save the response in the answers list
-    answers.append({'Question': row['Question'], 'Answer': response})
+    # Append the response as a dictionary to the answers_df DataFrame
+    answers_df = pd.concat([answers_df, pd.DataFrame({'Question': [row['Question']], 'Answer': [response]})], ignore_index=True)
 
 # Display the answers
 st.write("### Your Answers:")
-print("Answers list:", answers)
+st.write(answers_df)
 
-# Create a DataFrame from the list of dictionaries
-answers_df = pd.DataFrame(answers)
-
-# Create a radar chart based on the answers
+# Create a radar chart based on the answers_df DataFrame
 fig = px.line_polar(answers_df, r='Answer', theta='Question', line_close=True)
 st.write("### Radar Chart:")
 st.plotly_chart(fig)
-
 
 
