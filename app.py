@@ -39,7 +39,9 @@ for index, row in df_questions.iterrows():
 # Display the answers
 st.write("### Your Answers:")
 print("Answers dictionary:", answers)
-answers_df = pd.DataFrame(list(answers.items()), columns=['Question', 'Answer'])
+answers_df = pd.concat([pd.DataFrame(answer, index=[0]) for answer in answers], ignore_index=True)
+# answers_df = pd.DataFrame(list(answers.items()), columns=['Question', 'Answer'])
+
 st.write(answers_df)
 
 # Create a radar chart based on the answers
